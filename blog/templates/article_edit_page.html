@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    >
+    <title>{{ article.title }}</title>
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="/static/layui/css/layui.css"
+    >
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="/static/css/main.css"
+    >
+    <style type="text/css">
+        .layui-input-block #xiugai {
+            min-height: 500px;
+        }
+
+        .content .review-version .form .layui-input-block {
+            margin: 0 auto
+        }
+    </style>
+</head>
+
+<body>
+<div class="header">
+    <div class="menu-btn">
+        <div class="menu"></div>
+    </div>
+    <h1 class="logo">
+        <a href="/blog/index">
+            <span>MYBLOG</span>
+            <img src="/static/img/logo.png">
+        </a>
+    </h1>
+    <div class="nav">
+        <a href="/blog/index">文章</a>
+        <a
+                href="#"
+                class="active"
+        >微语</a>
+        <a href="#">留言</a>
+        <a href="#">相册</a>
+        <a href="#">关于</a>
+    </div>
+    <ul class="layui-nav header-down-nav">
+        <li class="layui-nav-item"><a href="/blog/index">文章</a></li>
+        <li class="layui-nav-item"><a
+                href="/"
+                class="active"
+        >微语</a></li>
+        <li class="layui-nav-item"><a href="#">留言</a></li>
+        <li class="layui-nav-item"><a href="#">相册</a></li>
+        <li class="layui-nav-item"><a href="#">关于</a></li>
+    </ul>
+    <p class="welcome-text">
+        欢迎来到<span class="name">{{ user }}</span>的博客~
+    </p>
+</div>
+
+
+<div class="content whisper-content">
+    <div class="cont">
+        <div class="whisper-list">
+            <div class="item-box">
+                {#    条件一            #}
+                <form class="layui-form" action="{% url 'blog:article_edit_page_action' %}" method="post">
+                    {% csrf_token %}
+                    {% if article %}
+                        <input type="hidden" name="article_id_hidden" value="{{ article.id }}">
+                        <input type="hidden" name="user_hidden" value="{{ user }}">
+                        <div class="item">
+                            <div class="whisper-title">
+                                <input name="title" id='article-title' value="{{ article.title }}"/>
+                            </div>
+                        </div>
+                        <div class="review-version">
+                            <div class="form">
+                                <div class="layui-form-item layui-form-text">
+                                    <div class="layui-input-block">
+                                        <textarea name="desc" class="layui-textarea"
+                                                  id='xiugai'>{{ article.content }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div
+                                            class="layui-input-block"
+                                            style="text-align: right;"
+                                    >
+                                        <button class="layui-btn definite">確定</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        {#    条件二            #}
+                    {% else %}
+                        <input type="hidden" name="article_id_hidden" value="0">
+                        <input type="hidden" name="user_hidden" value="{{ user }}">
+                        <div class="item">
+                            <div class="whisper-title">
+                                <input name="title" id='article-title'>
+                            </div>
+                        </div>
+                        <div class="review-version">
+                            <div class="form">
+
+                                <div class="layui-form-item layui-form-text">
+                                    <div class="layui-input-block">
+                                        <textarea name="desc" class="layui-textarea" id='xiugai'></textarea>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div
+                                            class="layui-input-block"
+                                            style="text-align: right;"
+                                    >
+                                        <button class="layui-btn definite">確定</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script
+        type="text/javascript"
+        src="/static/layui/layui.js"
+></script>
+</body>
+
+</html>

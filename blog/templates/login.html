@@ -1,0 +1,95 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+    <link href="http://fonts.useso.com/css?family=PT+Sans:400,700,400italic,700italic|Oswald:400,300,700" rel="stylesheet" type="text/css">
+    <link href="http://fonts.useso.com/css?family=Exo+2" rel="stylesheet" type="text/css">
+    <script src="jquery-3.3.1.min.js"></script>
+    <style>
+        body,html{
+            min-height: 100%;
+        }
+        h1{
+            padding-top: 2em;
+            color: #ffffff;
+        }
+        .key{
+            background: none;
+        }
+        #log{
+            display: flex;
+        }
+        #log input{
+            width: 50%;
+        }
+        #log input[type='submit'],#log input[type='button']{
+  font-size: 30px;
+  color: #fff;
+  outline: none;
+  border: none;
+  background: #3ea751;
+  width: 100%;
+  padding: 18px 0;
+  border-bottom-left-radius: 15px;
+	-webkit-border-bottom-left-radius: 15px;
+	-moz-border-bottom-left-radius: 15px;
+	-o-border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	-webkit-border-bottom-right-radius: 15px;
+	-moz-border-bottom-right-radius: 15px;
+	-o-border-bottom-right-radius: 15px;
+	cursor: pointer;
+}
+#log input[type='submit']:hover,#log input[type='button']:hover {
+	background: #ff2775;
+  border-bottom-left-radius: 15px;
+	-webkit-border-bottom-left-radius: 15px;
+	-moz-border-bottom-left-radius: 15px;
+	-o-border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	-webkit-border-bottom-right-radius: 15px;
+	-moz-border-bottom-right-radius: 15px;
+	-o-border-bottom-right-radius: 15px;
+  	transition: 1s all;
+	-webkit-transition: 1s all;
+	-moz-transition: 1s all;
+	-o-transition: 1s all;
+}
+    </style>
+</head>
+<body >
+<script>$(document).ready(function(c) {
+	$('.close').on('click', function(c){
+		$('.login-form').fadeOut('slow', function(c){
+	  		$('.login-form').remove();
+		});
+	});
+});
+</script>
+<h1> Welcome to login</h1>
+<div class="login-form">
+		<div class="head-info">
+		</div>
+			<div class="clear"> </div>
+	<div class="avtar">
+		<img src="/static/avtar.png" alt="">
+	</div>
+    <form action="/login/" method="POST" >
+        {% csrf_token %}
+        <input name="user" class="text"  type="text"  placeholder="User" autofocus required>
+        <div class="key">
+            <input name="password" type="password"  placeholder="Password" required >
+        </div>
+        <div id="log">
+            <input type="submit" id="login" value="Login" >
+            <input type="button" id="signup" value="Signup" onclick="window.location.href='/signup/'">
+        </div>
+    </form>
+    <span style="color:#a2fff2;">{{ message }}</span>
+</div>
+
+</body>
+</html>

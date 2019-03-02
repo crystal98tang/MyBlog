@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    >
+    <title>{{ article.title }}</title>
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="/static/layui/css/layui.css"
+    >
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="/static/css/main.css"
+    >
+    <style>
+        #edit {
+            padding-left: 20px;
+        }
+
+        .content .review-version .form .layui-input-block {
+            margin: 0 auto;
+        }
+
+        .content .review-version .list-cont .cont:last-child {
+            border-bottom: 2px solid black;
+        }
+
+        #bacha {
+            color: red;
+        }
+
+        .text-cont {
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+
+<body>
+<div class="header">
+    <div class="menu-btn">
+        <div class="menu"></div>
+    </div>
+    <h1 class="logo">
+        <a href="/blog/index">
+            <span>MYBLOG</span>
+            <img src="/static/img/logo.png">
+        </a>
+    </h1>
+    <div class="nav">
+        <a href="/blog/index">文章</a>
+        <a
+                href="#"
+                class="active"
+        >微语</a>
+        <a href="#">留言</a>
+        <a href="#">相册</a>
+        <a href="#">关于</a>
+    </div>
+    <ul class="layui-nav header-down-nav">
+        <li class="layui-nav-item"><a href="/blog/index">文章</a></li>
+        <li class="layui-nav-item"><a
+                href="whisper.html"
+                class="active"
+        >微语</a></li>
+        <li class="layui-nav-item"><a href="#">留言</a></li>
+        <li class="layui-nav-item"><a href="#">相册</a></li>
+        <li class="layui-nav-item"><a href="#">关于</a></li>
+    </ul>
+    <p class="welcome-text">
+        欢迎来到<span class="name">{{ user }}</span>的博客~
+    </p>
+</div>
+
+
+<div class="content whisper-content">
+    <div class="cont">
+        <div class="whisper-list">
+            <div class="item-box">
+                <div class="item">
+                    <div class="whisper-title">
+                        {{ article.title }}
+                        <i class="layui-icon layui-icon-date"></i>
+                        <!-- 博客发布时间 -->
+                        <span class="date">{{ article.last_edit }}</span>
+                    </div>
+                    <p class="text-cont">
+                        {{ article.content }}
+                    </p>
+                    <div class="op-list">
+                        <!-- 评论数   赞数 -->
+                        <p class="like"><i class="layui-icon layui-icon-praise"></i><span>{{ article.art_good }}</span>
+                        </p>
+                        <p class="edit"><i
+                                class="layui-icon layui-icon-reply-fill"></i><span>{{ article.com_sum }}</span></p>
+                        <p id="edit">
+                            {% if token %}
+                                <a href=" {% url 'blog:article_edit_page' article.id %} ">编辑</a>
+                                <a href=" {% url 'blog:article_delete' article.id %} " style="padding-left:5px ">删除</a>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="review-version">
+                    <div class="form">
+                        <form class="layui-form" action="{% url 'blog:comment_create' %}" method="post">
+                            {% csrf_token %}
+                            <div class="layui-form-item layui-form-text">
+                                <div class="layui-input-block">
+                                    <input type="hidden" name="comment_id_hidden" value="0">
+                                    <input type="hidden" name="user_hidden" value="{{ user }}">
+                                    <input type="hidden" name="article_part_of_hidden" value="{{ article.id }}">
+                                    <textarea name="comment" class="layui-textarea"></textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-block" style="text-align: right;">
+                                    <button class="layui-btn definite">確定</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    {% for comment in comments %}
+                        <div class="list-cont">
+                            <div class="cont">
+                                <div class="text">
+                                    <p class="tit"><span class="name">{{ comment.comment_user }}</span><span
+                                            class="data">{{ comment.creation_time }}</span></p>
+                                    <p class="ct">{{ comment.content }}</p>
+                                </div>
+                                {% if token %}
+                                    <a href=" {% url 'blog:comment_delete' comment.id %} " id="bacha"> × </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script
+        type="text/javascript"
+        src="/static/layui/layui.js"
+></script>
+
+</body>
+
+</html>

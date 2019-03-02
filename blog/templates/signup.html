@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta
+        http-equiv="Content-Type"
+        content="text/html; charset=utf-8"
+    >
+    <meta
+        http-equiv="X-UA-Compatible"
+        content="IE=edge"
+    />
+    <title>注册页面</title>
+
+    <link
+        href="../../static/normalize.css"
+        rel="stylesheet"
+    />
+    <link
+        href="../../static/css/jquery-ui.css"
+        rel="stylesheet"
+    />
+    <link
+        href="../../static/css/jquery.idealforms.min.css"
+        rel="stylesheet"
+        media="screen"
+    />
+
+    <style type="text/css">
+        html,body{
+            min-height: 100%;
+            min-width: 100%;
+
+        }
+        body {
+            font: normal 15px/1.5 Arial, Helvetica, Free Sans, sans-serif;
+            color: #222;
+            background: linear-gradient(30deg, rgba(133, 177, 183, 0.67), rgba(17, 43, 147, 0.69), rgba(43, 172, 163, 0.53));
+        }
+        .row{
+            padding-top: 130px
+        }
+        
+        .row #my-form{
+            border-radius: 35px;
+            background-color:rgba(255,255,255,0.2)
+        }
+        #my-form {
+            width: 755px;
+            margin: 0 auto;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 3em;
+            border-radius: 3px;
+            box-shadow: 0 0 2px rgba(0, 0, 0, .2);
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <div class="row">
+
+        <div class="eightcol last">
+
+            <!-- Begin Form -->
+
+            <form id="my-form" method="POST">{% csrf_token %}
+
+                    <div><label>用户名:</label><input
+                            id="username"
+                            name="account"
+                            type="text"
+                        /></div>
+                    <div><label>密码:</label><input
+                            id="pass"
+                            name="password"
+                            type="password"
+                        /></div>
+                    <div><label>邮箱:</label><input
+                            id="email"
+                            name="email"
+                            data-ideal="required email"
+                            type="email"
+                        /></div>
+
+                <div>
+                    <hr />
+                </div>
+
+                <div>
+                    <button type="submit" value='注册'>提交</button>
+                    <button
+                        id="reset"
+                        type="button"
+                    >重置</button>
+                </div>
+
+            </form>
+
+            <!-- End Form -->
+
+        </div>
+
+    </div>
+
+
+    <script
+        type="text/javascript"
+        src="../../static/js/jquery-1.8.2.min.js"
+    ></script>
+    <script
+        type="text/javascript"
+        src="../../static/js/jquery-ui.min.js"
+    ></script>
+    <script
+        type="text/javascript"
+        src="../../static/js/jquery.idealforms.js"
+    ></script>
+    <script type="text/javascript">
+        var options = {
+
+            onFail: function () {
+                alert($myform.getInvalid().length + ' invalid fields.')
+            },
+
+            inputs: {
+                'password': {
+                    filters: 'required pass',
+                },
+                'username': {
+                    filters: 'required username',
+                    data: {
+                        //ajax: { url:'validate.php' }
+                    }
+                },
+                'file': {
+                    filters: 'extension',
+                    data: {
+                        extension: ['jpg']
+                    }
+                },
+                'comments': {
+                    filters: 'min max',
+                    data: {
+                        min: 50,
+                        max: 200
+                    }
+                },
+                'states': {
+                    filters: 'exclude',
+                    data: {
+                        exclude: ['default']
+                    },
+                    errors: {
+                        exclude: '选择国籍.'
+                    }
+                },
+                'langs[]': {
+                    filters: 'min max',
+                    data: {
+                        min: 2,
+                        max: 3
+                    },
+                    errors: {
+                        min: 'Check at least <strong>2</strong> options.',
+                        max: 'No more than <strong>3</strong> options allowed.'
+                    }
+                }
+            }
+
+        };
+
+        var $myform = $('#my-form').idealforms(options).data('idealforms');
+
+        $('#reset').click(function () {
+            $myform.reset().fresh().focusFirst()
+        });
+
+        $myform.focusFirst();
+
+    </script>
+
+</body>
+
+</html>
